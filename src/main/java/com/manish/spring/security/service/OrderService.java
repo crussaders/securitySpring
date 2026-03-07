@@ -40,7 +40,7 @@ public class OrderService {
             throw new IllegalStateException("Cannot delete order with associated order items");
         }
 
-        if (order.getPayments() != null && !order.getPayments().isEmpty()) {
+        if (order.getPayment() != null) {
             throw new IllegalStateException("Cannot delete order with associated payments");
         }
 
