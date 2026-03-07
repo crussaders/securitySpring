@@ -2,6 +2,7 @@ package com.manish.spring.security.service;
 
 import com.manish.spring.security.Entity.Product;
 import com.manish.spring.security.Repository.ProductRepository;
+import com.manish.spring.security.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class ProductService {
 
     public Product getProduct(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product", id));
     }
 
     public Product createProduct(Product product) {
