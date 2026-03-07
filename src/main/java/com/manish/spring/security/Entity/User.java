@@ -3,7 +3,6 @@ package com.manish.spring.security.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
 @Table(name = "users")
