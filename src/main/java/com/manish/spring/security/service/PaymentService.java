@@ -29,7 +29,6 @@ public class PaymentService {
     public Payment updatePayment(Long id, Payment payment) {
         Payment existing = getPayment(id);
         existing.setPaymentMethod(payment.getPaymentMethod());
-        existing.setPaymentStatus(payment.getPaymentStatus());
         existing.setAmount(payment.getAmount());
         existing.setPaymentDate(payment.getPaymentDate());
         return paymentRepository.save(existing);
