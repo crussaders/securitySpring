@@ -4,6 +4,7 @@ import com.manish.spring.security.Entity.Order;
 import com.manish.spring.security.Repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    @Transactional
     public void deleteOrder(Long id) {
         Order order = getOrder(id);
 

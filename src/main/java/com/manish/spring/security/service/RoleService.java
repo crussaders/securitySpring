@@ -4,6 +4,7 @@ import com.manish.spring.security.Entity.Role;
 import com.manish.spring.security.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class RoleService {
         return roleRepository.save(existing);
     }
 
+    @Transactional
     public void deleteRole(Long id) {
         Role role = getRole(id);
 
