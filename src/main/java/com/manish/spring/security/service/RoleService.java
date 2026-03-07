@@ -33,7 +33,12 @@ public class RoleService {
     }
 
     public void deleteRole(Long id) {
-        getRole(id);
-        roleRepository.deleteById(id);
+        Role role = getRole(id);
+
+        if (role.getUsers() != null && !role.getUsers().isEmpty()) {
+            throw new IllegalStateException("Cannot delete role that is assigned to one or more users");
+        }
+
+        roleRepository.delete(role);
     }
 }
