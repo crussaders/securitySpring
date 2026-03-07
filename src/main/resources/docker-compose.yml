@@ -33,7 +33,7 @@ services:
       - db-network
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:8.10
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
