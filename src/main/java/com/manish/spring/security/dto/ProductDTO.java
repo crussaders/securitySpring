@@ -39,9 +39,6 @@ public class ProductDTO {
 
     public Product toEntity() {
         Product product = new Product();
-        if (this.id != null) {
-            product.setId(this.id);
-        }
         product.setName(this.name);
         product.setDescription(this.description);
         product.setPrice(this.price);
