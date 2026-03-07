@@ -1,6 +1,6 @@
 package com.manish.spring.security.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +25,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @JsonBackReference
+    @JsonIgnoreProperties("users")
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

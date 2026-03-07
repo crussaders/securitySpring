@@ -1,7 +1,7 @@
 package com.manish.spring.security.Entity;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +18,7 @@ public class Role {
     @Column(name = "role_name", unique = true, nullable = false)
     private String roleName;
 
-    @JsonManagedReference
+    @JsonIgnoreProperties("role")
     @OneToMany(mappedBy = "role")
     private List<User> users;
 
