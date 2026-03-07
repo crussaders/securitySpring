@@ -34,7 +34,16 @@ public class OrderService {
     }
 
     public void deleteOrder(Long id) {
-        getOrder(id);
-        orderRepository.deleteById(id);
+        Order order = getOrder(id);
+
+        if (order.getOrderItems() != null && !order.getOrderItems().isEmpty()) {
+            throw new IllegalStateException("Cannot delete order with associated order items");
+        }
+
+        if (order.getPayments() != null && !order.getPayments().isEmpty()) {
+            throw new IllegalStateException("Cannot delete order with associated payments");
+        }
+
+        orderRepository.delete(order);
     }
 }
