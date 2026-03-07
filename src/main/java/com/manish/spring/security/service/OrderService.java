@@ -21,7 +21,7 @@ public class OrderService {
 
     public Order getOrder(Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order " + id + " not found"));
     }
 
     public Order createOrder(Order order) {
