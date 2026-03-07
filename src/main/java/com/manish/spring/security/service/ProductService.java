@@ -2,6 +2,7 @@ package com.manish.spring.security.service;
 
 import com.manish.spring.security.Entity.Product;
 import com.manish.spring.security.Repository.ProductRepository;
+import com.manish.spring.security.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,29 +14,33 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductDTO> getAllProducts() {
+        return productRepository.findAll().stream()
+                .map(ProductDTO::from)
+                .toList();
     }
 
-    public Product getProduct(Long id) {
-        return productRepository.findById(id)
+    public ProductDTO getProduct(Long id) {
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+        return ProductDTO.from(product);
     }
 
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public ProductDTO createProduct(ProductDTO productDTO) {
+        Product saved = productRepository.save(productDTO.toEntity());
+        return ProductDTO.from(saved);
     }
 
-    public Product updateProduct(Long id, Product product) {
+    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+        Product existing = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        Product existing = getProduct(id);
+        existing.setName(productDTO.getName());
+        existing.setDescription(productDTO.getDescription());
+        existing.setPrice(productDTO.getPrice());
+        existing.setStock(productDTO.getStock());
 
-        existing.setName(product.getName());
-        existing.setDescription(product.getDescription());
-        existing.setPrice(product.getPrice());
-        existing.setStock(product.getStock());
-
-        return productRepository.save(existing);
+        return ProductDTO.from(productRepository.save(existing));
     }
 
     public void deleteProduct(Long id) {
