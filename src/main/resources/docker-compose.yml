@@ -59,6 +59,8 @@ services:
   pgadmin:
     image: dpage/pgadmin4:8.10
     container_name: pgadmin
+    # Override PGADMIN_DEFAULT_EMAIL and PGADMIN_DEFAULT_PASSWORD in your .env file.
+    # The defaults below are for local development only and must not be used in production.
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
