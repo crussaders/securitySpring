@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "payments")
-@NoArgsConstructor
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +28,7 @@ public class Payment {
 
     @Column(name = "payment_date")
     private LocalDateTime paymentDate;
+    public Payment(){}
     public Payment(Long id, Order order, String paymentMethod, String paymentStatus,
                    BigDecimal amount, LocalDateTime paymentDate) {
         this.id = id;

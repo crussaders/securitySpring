@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@NoArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +32,7 @@ public class Order {
     @OneToOne(mappedBy = "order")
     private Payment payment;
     // All-Args Constructor
+    public Order (){}
     public Order(Long id, User user, BigDecimal totalAmount, String status,
                  LocalDateTime createdAt, List<OrderItem> orderItems, Payment payment) {
         this.id = id;

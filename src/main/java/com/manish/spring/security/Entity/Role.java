@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "roles")
-@NoArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +20,7 @@ public class Role {
     @JsonIgnoreProperties("role")
     @OneToMany(mappedBy = "role")
     private List<User> users;
+    public Role(){}
 
     public Role(Long id, String roleName, List<User> users) {
         this.id = id;
