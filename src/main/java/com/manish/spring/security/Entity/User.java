@@ -1,5 +1,7 @@
 package com.manish.spring.security.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +23,11 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
 
+    @JsonIgnoreProperties("users")
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
