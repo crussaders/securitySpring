@@ -1,5 +1,6 @@
 package com.manish.spring.security.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.manish.spring.security.Entity.Product;
 
 import java.math.BigDecimal;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 
 public class ProductDTO {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private String name;
     private String description;
