@@ -28,10 +28,13 @@ public class OrderService {
     }
 
     public Order updateOrderStatus(Long id, String status) {
-
         Order order = getOrder(id);
         order.setStatus(status);
-
         return orderRepository.save(order);
+    }
+
+    public void deleteOrder(Long id) {
+        getOrder(id);
+        orderRepository.deleteById(id);
     }
 }
