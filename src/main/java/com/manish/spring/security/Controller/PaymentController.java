@@ -23,4 +23,19 @@ public class PaymentController {
     public List<Payment> getPayments() {
         return paymentService.getPayments();
     }
+
+    @GetMapping("/{id}")
+    public Payment getPayment(@PathVariable Long id) {
+        return paymentService.getPayment(id);
+    }
+
+    @PutMapping("/{id}")
+    public Payment updatePayment(@PathVariable Long id, @RequestBody Payment payment) {
+        return paymentService.updatePayment(id, payment);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletePayment(@PathVariable Long id) {
+        paymentService.deletePayment(id);
+    }
 }
