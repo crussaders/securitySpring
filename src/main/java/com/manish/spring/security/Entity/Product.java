@@ -1,7 +1,6 @@
 package com.manish.spring.security.Entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-@NoArgsConstructor
 public class Product {
 
     @Id
@@ -29,6 +27,9 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
+    // No-Args Constructor
+    public Product() {}
+
     // All-Args Constructor
     public Product(Long id, String name, String description, BigDecimal price,
                    Integer stock, LocalDateTime createdAt, List<OrderItem> orderItems) {
