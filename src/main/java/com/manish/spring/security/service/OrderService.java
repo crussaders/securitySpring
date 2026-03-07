@@ -2,7 +2,7 @@ package com.manish.spring.security.service;
 
 import com.manish.spring.security.Entity.Order;
 import com.manish.spring.security.Repository.OrderRepository;
-import com.manish.spring.security.exception.OrderNotFoundException;
+import com.manish.spring.security.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class OrderService {
 
     public Order getOrder(Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Order", id));
     }
 
     public Order createOrder(Order order) {

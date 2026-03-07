@@ -3,10 +3,9 @@ package com.manish.spring.security.service;
 import com.manish.spring.security.Entity.Product;
 import com.manish.spring.security.Repository.ProductRepository;
 import com.manish.spring.security.dto.ProductDTO;
+import com.manish.spring.security.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -48,6 +47,6 @@ public class ProductService {
 
     private Product getProductEntity(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product", id));
     }
 }
