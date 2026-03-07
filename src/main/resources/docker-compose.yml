@@ -22,11 +22,11 @@ services:
     container_name: flyway_migration
     depends_on:
       - postgres
-    command: >
-      -url=jdbc:postgresql://postgres:5432/mydb
-      -user=admin
-      -password=admin123
-      migrate
+    command:
+      - -url=jdbc:postgresql://postgres:5432/mydb
+      - -user=admin
+      - -password=admin123
+      - migrate
     volumes:
       - ./db/migration:/flyway/sql
     networks:
