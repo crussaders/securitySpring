@@ -22,9 +22,8 @@ public class ProductService {
                 .toList();
     }
 
-    public Product getProduct(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+    public ProductDTO getProduct(Long id) {
+        return ProductDTO.from(getProductEntity(id));
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {
