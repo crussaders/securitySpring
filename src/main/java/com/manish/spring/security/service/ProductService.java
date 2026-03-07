@@ -21,9 +21,7 @@ public class ProductService {
     }
 
     public ProductDTO getProduct(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-        return ProductDTO.from(product);
+        return ProductDTO.from(getProductEntity(id));
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {
@@ -32,8 +30,7 @@ public class ProductService {
     }
 
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
-        Product existing = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        Product existing = getProductEntity(id);
 
         existing.setName(productDTO.getName());
         existing.setDescription(productDTO.getDescription());
@@ -45,5 +42,10 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+    }
+
+    private Product getProductEntity(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 }
