@@ -33,4 +33,9 @@ public class OrderController {
                               @RequestParam String status) {
         return orderService.updateOrderStatus(id, status);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+    }
 }

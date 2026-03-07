@@ -20,4 +20,23 @@ public class PaymentService {
     public List<Payment> getPayments() {
         return paymentRepository.findAll();
     }
+
+    public Payment getPayment(Long id) {
+        return paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Payment not found"));
+    }
+
+    public Payment updatePayment(Long id, Payment payment) {
+        Payment existing = getPayment(id);
+        existing.setPaymentMethod(payment.getPaymentMethod());
+        existing.setAmount(payment.getAmount());
+        existing.setPaymentDate(payment.getPaymentDate());
+        existing.setPaymentStatus(payment.getPaymentStatus());
+        return paymentRepository.save(existing);
+    }
+
+    public void deletePayment(Long id) {
+        getPayment(id);
+        paymentRepository.deleteById(id);
+    }
 }
