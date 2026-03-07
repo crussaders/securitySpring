@@ -43,6 +43,7 @@ public class ProductDTO {
         product.setDescription(this.description);
         product.setPrice(this.price);
         product.setStock(this.stock);
+        product.setCreatedAt(LocalDateTime.now());
         return product;
     }
 
