@@ -1,13 +1,11 @@
 package com.manish.spring.security.Entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_items")
-@NoArgsConstructor
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +22,7 @@ public class OrderItem {
     private Integer quantity;
 
     private BigDecimal price;
-    // All-Args Constructor
+    public OrderItem() {}    // No-Args Constructor
     public OrderItem(Long id, Order order, Product product, Integer quantity, BigDecimal price) {
         this.id = id;
         this.order = order;

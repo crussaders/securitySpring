@@ -3,11 +3,9 @@ package com.manish.spring.security.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor
 public class User {
 
     @Id
@@ -31,6 +29,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    public User(){}
 
     public User(Long id, String firstName, String lastName, String email, String password, Role role) {
         this.id = id;
