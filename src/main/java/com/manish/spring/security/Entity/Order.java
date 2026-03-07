@@ -31,8 +31,10 @@ public class Order {
 
     @OneToOne(mappedBy = "order")
     private Payment payment;
+    // No-args constructor
+    public Order() {}
+
     // All-Args Constructor
-    public Order (){}
     public Order(Long id, User user, BigDecimal totalAmount, String status,
                  LocalDateTime createdAt, List<OrderItem> orderItems, Payment payment) {
         this.id = id;
