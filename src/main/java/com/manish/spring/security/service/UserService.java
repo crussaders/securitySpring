@@ -4,7 +4,9 @@ import com.manish.spring.security.Entity.User;
 import com.manish.spring.security.Repository.OrderRepository;
 import com.manish.spring.security.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class UserService {
     public void deleteUser(Long id) {
         getUser(id);
         if (!orderRepository.findByUserId(id).isEmpty()) {
-            throw new IllegalStateException("Cannot delete user with associated orders");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot delete user with associated orders");
         }
         userRepository.deleteById(id);
     }
