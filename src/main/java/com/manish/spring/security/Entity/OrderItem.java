@@ -1,7 +1,6 @@
 package com.manish.spring.security.Entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.math.BigDecimal;
 
