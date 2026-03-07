@@ -4,7 +4,9 @@ import com.manish.spring.security.Entity.Product;
 import com.manish.spring.security.Repository.ProductRepository;
 import com.manish.spring.security.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,8 +22,9 @@ public class ProductService {
                 .toList();
     }
 
-    public ProductDTO getProduct(Long id) {
-        return ProductDTO.from(getProductEntity(id));
+    public Product getProduct(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {
