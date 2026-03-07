@@ -23,8 +23,7 @@ public class OrderItem {
     private Integer quantity;
 
     private BigDecimal price;
-    public OrderItem()
-    {}    // All-Args Constructor
+    public OrderItem() {}    // No-Args Constructor
     public OrderItem(Long id, Order order, Product product, Integer quantity, BigDecimal price) {
         this.id = id;
         this.order = order;
