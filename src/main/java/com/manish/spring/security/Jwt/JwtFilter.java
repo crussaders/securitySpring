@@ -31,22 +31,31 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+        if (authHeader != null
+                && authHeader.startsWith("Bearer ")
+                && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             String token = authHeader.substring(7);
 
-            String username = jwtUtil.extractUsername(token);
+            try {
+                String username = jwtUtil.extractUsername(token);
 
-            UserDetails userDetails = service.loadUserByUsername(username);
+                if (username != null) {
+                    UserDetails userDetails = service.loadUserByUsername(username);
 
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (Exception ex) {
+                // Treat as unauthenticated if token parsing or user lookup fails.
+                // Optionally, you could set response.setStatus(HttpServletResponse.SC_UNAUTHORIZED) here.
+            }
         }
 
         filterChain.doFilter(request, response);
