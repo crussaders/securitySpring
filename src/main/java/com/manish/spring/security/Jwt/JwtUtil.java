@@ -3,16 +3,22 @@ package com.manish.spring.security.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private final Key SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final Key SECRET;
 
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        this.SECRET = Keys.hmacShaKeyFor(keyBytes);
+    }
     public String generateToken(String username) {
 
         return Jwts.builder()
