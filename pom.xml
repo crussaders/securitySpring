@@ -71,6 +71,35 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Cucumber Java: the core Cucumber library providing Gherkin step annotation support (@Given, @When, @Then) -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>7.20.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Cucumber JUnit Platform Engine: integrates Cucumber with the JUnit 5 Platform so scenarios run as JUnit tests -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>7.20.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Cucumber PicoContainer: lightweight dependency-injection for Cucumber step definition classes.
+		     Enables constructor injection of the shared TestContext object into every step definition
+		     class, so state can be passed between @Given, @When, and @Then steps within a scenario. -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-picocontainer</artifactId>
+			<version>7.20.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- JUnit Platform Suite: enables @Suite runner classes that discover and execute Cucumber feature files -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
