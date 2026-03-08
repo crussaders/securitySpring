@@ -45,6 +45,7 @@ class JwtFilterTest {
         when(userDetails.getAuthorities()).thenReturn(Collections.emptyList());
         when(jwtUtil.extractUsername(token)).thenReturn(email);
         when(customUserDetailsService.loadUserByUsername(email)).thenReturn(userDetails);
+        when(jwtUtil.validateToken(token, email)).thenReturn(true);
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader("Authorization", "Bearer " + token);
