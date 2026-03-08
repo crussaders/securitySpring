@@ -1,27 +1,114 @@
-# Frontend
+# Security Spring — Angular Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 19.2.19.
+An **Angular 19** single-page application that provides the UI for the Security Spring backend. It communicates with the Spring Boot REST API at `http://localhost:8080`.
 
-## Development server
+## Table of Contents
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Available Scripts](#available-scripts)
+- [Application Structure](#application-structure)
+- [Routing](#routing)
+- [Authentication Flow](#authentication-flow)
+- [HTTP Interceptor](#http-interceptor)
+- [Running Tests](#running-tests)
+- [Building for Production](#building-for-production)
+- [Code Scaffolding](#code-scaffolding)
 
-## Code scaffolding
+## Prerequisites
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+| Tool | Minimum Version |
+|------|----------------|
+| **Node.js** | 18+ |
+| **npm** | 9+ |
+| **Angular CLI** | 19+ (optional — `npx ng` works without a global install) |
 
-## Build
+The Spring Boot backend must be running at `http://localhost:8080` before using the UI.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Getting Started
 
-## Running unit tests
+```bash
+# from the repo root
+cd frontend
+npm install
+npm start
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Open **`http://localhost:4200`** in your browser. The app will automatically reload when you change source files.
 
-## Running end-to-end tests
+## Available Scripts
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start the development server at `http://localhost:4200` |
+| `npm run build` | Build optimised production bundle into `dist/frontend/` |
+| `npm test` | Run unit tests via Karma (headless Chrome) |
+| `npm run watch` | Build in watch mode for development |
 
-## Further help
+## Application Structure
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+src/
+└── app/
+    ├── components/
+    │   ├── login/          # Login page — username/password form
+    │   ├── home/           # Protected dashboard with feature cards
+    │   └── navbar/         # Top navigation bar with logout
+    ├── services/
+    │   └── auth.service.ts # Login, logout and JWT token management
+    ├── guards/
+    │   └── auth.guard.ts   # Prevents unauthenticated access to protected routes
+    ├── interceptors/
+    │   └── auth.interceptor.ts  # Injects Authorization header on all requests
+    ├── app-routing.module.ts    # Client-side route definitions
+    └── app.module.ts            # Root Angular module
+```
+
+## Routing
+
+| Path | Component | Guard |
+|------|-----------|-------|
+| `/` | Redirects to `/home` | — |
+| `/login` | `LoginComponent` | Public |
+| `/home` | `HomeComponent` | `authGuard` (login required) |
+| `**` | Redirects to `/home` | — |
+
+## Authentication Flow
+
+1. User submits credentials on the **Login** page.
+2. `AuthService.login()` posts to `POST /auth/login` on the backend.
+3. On success, the JWT token is saved to `localStorage` under the key `auth_token`.
+4. The user is navigated to `/home`.
+5. Clicking **Logout** clears the token and redirects to `/login`.
+
+## HTTP Interceptor
+
+`AuthInterceptor` automatically attaches a `Authorization: Bearer <token>` header to every outgoing HTTP request when a token is present in `localStorage`. No manual header management is needed in services or components.
+
+## Running Tests
+
+```bash
+npm test
+```
+
+Tests run via [Karma](https://karma-runner.github.io) with Jasmine in a headless Chrome browser. Test files follow the `*.spec.ts` naming convention and live alongside their source files.
+
+## Building for Production
+
+```bash
+npm run build
+```
+
+The optimised bundle is output to `dist/frontend/`. You can serve this directory with any static file server or configure the Spring Boot app to serve it directly.
+
+## Code Scaffolding
+
+Use the Angular CLI to generate new building blocks:
+
+```bash
+npx ng generate component components/my-component
+npx ng generate service services/my-service
+npx ng generate guard guards/my-guard
+```
+
+For more information see the [Angular CLI documentation](https://angular.dev/tools/cli).

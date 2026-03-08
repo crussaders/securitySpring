@@ -12,6 +12,13 @@ A demo project showcasing **Spring Boot** with **Spring Security** integration. 
   - [Build the Application](#build-the-application)
   - [Run the Application](#run-the-application)
   - [Run with Docker Compose](#run-with-docker-compose)
+- [Frontend (Angular UI)](#frontend-angular-ui)
+  - [UI Prerequisites](#ui-prerequisites)
+  - [Install Dependencies](#install-dependencies)
+  - [Run the Development Server](#run-the-development-server)
+  - [Build for Production](#build-for-production)
+  - [Run UI Tests](#run-ui-tests)
+  - [UI Structure](#ui-structure)
 - [Configuration](#configuration)
 - [API Endpoints](#api-endpoints)
   - [Users](#users)
@@ -38,6 +45,25 @@ Ensure the following tools are installed before running the application:
 
 ```
 securitySpring/
+├── frontend/                                   # Angular UI (see Frontend section)
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/
+│   │   │   │   ├── login/                      # Login page component
+│   │   │   │   ├── home/                       # Dashboard component
+│   │   │   │   └── navbar/                     # Top navigation component
+│   │   │   ├── services/
+│   │   │   │   └── auth.service.ts             # JWT login/logout service
+│   │   │   ├── guards/
+│   │   │   │   └── auth.guard.ts               # Route guard (requires login)
+│   │   │   ├── interceptors/
+│   │   │   │   └── auth.interceptor.ts         # Attaches JWT to HTTP requests
+│   │   │   ├── app-routing.module.ts           # Client-side routes
+│   │   │   └── app.module.ts                   # Root Angular module
+│   │   ├── index.html
+│   │   └── styles.css
+│   ├── angular.json
+│   └── package.json
 ├── src/
 │   ├── main/
 │   │   ├── java/com/manish/spring/security/
@@ -171,6 +197,71 @@ To stop all services:
 ```bash
 docker compose down
 ```
+
+## Frontend (Angular UI)
+
+The `frontend/` directory contains an **Angular 19** single-page application that serves as the UI for this project. It communicates with the Spring Boot REST API running at `http://localhost:8080`.
+
+### UI Prerequisites
+
+| Tool | Minimum Version |
+|------|----------------|
+| **Node.js** | 18+ |
+| **npm** | 9+ |
+
+### Install Dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+### Run the Development Server
+
+```bash
+cd frontend
+npm start
+```
+
+The app will be available at **`http://localhost:4200`** and will automatically reload on code changes.
+
+> Make sure the Spring Boot backend is running at `http://localhost:8080` before using the UI.
+
+### Build for Production
+
+```bash
+cd frontend
+npm run build
+```
+
+The optimised output is written to `frontend/dist/frontend/`.
+
+### Run UI Tests
+
+```bash
+cd frontend
+npm test
+```
+
+Tests run via [Karma](https://karma-runner.github.io) in a headless Chrome browser.
+
+### UI Structure
+
+| Route | Component | Access |
+|-------|-----------|--------|
+| `/login` | `LoginComponent` | Public |
+| `/home` | `HomeComponent` | Protected (requires login) |
+
+**Key files:**
+
+| File | Description |
+|------|-------------|
+| `src/app/components/login/` | Login form — calls `/auth/login`, stores JWT in `localStorage` |
+| `src/app/components/home/` | Dashboard with feature cards (Users, Products, Orders, Payments) |
+| `src/app/components/navbar/` | Top navigation bar with logout button |
+| `src/app/services/auth.service.ts` | Handles login, logout and JWT token storage |
+| `src/app/guards/auth.guard.ts` | Redirects unauthenticated users to `/login` |
+| `src/app/interceptors/auth.interceptor.ts` | Attaches `Authorization: Bearer <token>` to every HTTP request |
 
 ## Configuration
 
