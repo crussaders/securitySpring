@@ -1,6 +1,7 @@
 package com.manish.spring.security.Jwt;
 
 import com.manish.spring.security.service.CustomUserDetailsService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,13 +38,24 @@ public class JwtFilter extends OncePerRequestFilter {
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             String token = authHeader.substring(7);
+            String username;
 
             try {
-                String username = jwtUtil.extractUsername(token);
+                username = jwtUtil.extractUsername(token);
+            } catch (JwtException | IllegalArgumentException e) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired JWT token");
+                return;
+            }
 
-                if (username != null) {
-                    UserDetails userDetails = service.loadUserByUsername(username);
-
+            if (username != null) {
+                if (jwtUtil.validateToken(token, username)) {
+                    UserDetails userDetails;
+                    try {
+                        userDetails = service.loadUserByUsername(username);
+                    } catch (UsernameNotFoundException e) {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
+                        return;
+                    }
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails,
@@ -52,9 +65,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            } catch (Exception ex) {
-                // Treat as unauthenticated if token parsing or user lookup fails.
-                // Optionally, you could set response.setStatus(HttpServletResponse.SC_UNAUTHORIZED) here.
             }
         }
 
