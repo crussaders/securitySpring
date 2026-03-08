@@ -1,5 +1,7 @@
 package com.manish.spring.security.Jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -31,11 +33,24 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
 
+        return extractAllClaims(token).getSubject();
+    }
+
+    public boolean validateToken(String token, String username) {
+        try {
+            Claims claims = extractAllClaims(token);
+            return username.equals(claims.getSubject())
+                    && !claims.getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET)
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
 }
