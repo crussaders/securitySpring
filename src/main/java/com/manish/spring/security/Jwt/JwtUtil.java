@@ -39,8 +39,7 @@ public class JwtUtil {
     public boolean validateToken(String token, String username) {
         try {
             Claims claims = extractAllClaims(token);
-            return username.equals(claims.getSubject())
-                    && !claims.getExpiration().before(new Date());
+            return username.equals(claims.getSubject());
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
