@@ -16,17 +16,20 @@ import java.util.Date;
 public class JwtUtil {
 
     private final Key SECRET;
+    private final long tokenExpirationMs;
 
-    public JwtUtil(@Value("${jwt.secret}") String secret) {
+    public JwtUtil(@Value("${jwt.secret}") String secret,
+                   @Value("${jwt.expiration}") long tokenExpirationMs) {
         byte[] keyBytes = Base64.getDecoder().decode(secret);
         this.SECRET = Keys.hmacShaKeyFor(keyBytes);
+        this.tokenExpirationMs = tokenExpirationMs;
     }
     public String generateToken(String username) {
 
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .setExpiration(new Date(System.currentTimeMillis() + tokenExpirationMs))
                 .signWith(SECRET)
                 .compact();
     }
