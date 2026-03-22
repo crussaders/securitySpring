@@ -1,0 +1,7 @@
+<nav class="navbar">
+  <div class="nav-brand">Security Spring</div>
+  <div class="nav-links" *ngIf="authService.isLoggedIn()">
+    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <button class="btn-logout" (click)="logout()">Logout</button>
+  </div>
+</nav>
